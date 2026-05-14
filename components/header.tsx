@@ -41,7 +41,7 @@ export function Header() {
         </nav>
 
         <div className="hidden md:block">
-          <Link href="/contact">
+          <Link href="/register">
             <button className="bg-primary-container cursor-pointer text-white hover:bg-orange-600 font-label-md text-label-md px-6 py-2.5 rounded-DEFAULT transition-colors shadow-[0_2px_8px_rgba(11,28,48,0.12)]">
               Register Now
             </button>
@@ -78,7 +78,7 @@ export function Header() {
               </Link>
             ))}
 
-            <Link href="/contact">
+            <Link href="/register">
               <button className="mt-2 w-full bg-primary-container cursor-pointer text-white hover:bg-orange-600 font-label-md text-label-md px-6 py-2.5 rounded-DEFAULT transition-colors shadow-[0_2px_8px_rgba(11,28,48,0.12)]">
                 Register Now
               </button>

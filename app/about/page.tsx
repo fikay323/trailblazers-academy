@@ -73,7 +73,7 @@ export default function AboutPage() {
               <div className="overflow-hidden rounded-2xl bg-card shadow-sm">
                 <div className="relative h-75 w-full">
                   <Image
-                    src="/images/cbt-lab.jpg"
+                    src="/images/image-10.jpeg"
                     alt="Dedicated CBT Lab"
                     fill
                     className="object-cover"

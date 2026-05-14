@@ -11,6 +11,11 @@ export default function ContactPage() {
     program: "",
     message: "",
   })
+  const [contactData, setContactData] = useState({
+    address: "Local Government, 5 Odo Oba Rd, beside Odo-Oba Mosque, Moniya 200132, Oyo",
+    phone: "+234 906 471 1618",
+    email: "trailblazeredukonsult@gmail.com"
+  })
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -50,47 +55,32 @@ export default function ContactPage() {
                         Campus Location
                       </h2>
                       <p className="mt-2 text-muted-foreground">
-                        123 Trailblazer Way
+                        {contactData.address}
                       </p>
-                      <p className="text-muted-foreground">Innovation District</p>
-                      <p className="text-muted-foreground">Metro City, MC 90210</p>
                     </div>
                   </div>
 
-                  {/* Map placeholder */}
-                  <div className="mt-6 h-45 w-full overflow-hidden rounded-xl bg-muted relative">
-                    <svg
-                      viewBox="0 0 400 200"
-                      className="h-full w-full"
-                      xmlns="http://www.w3.org/2000/svg"
+                  {/* Google Maps Integration */}
+                  <div className="mt-6 h-60 w-full overflow-hidden rounded-xl bg-muted relative">
+                    <iframe
+                      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3955.2606507239316!2d3.8921870745982914!3d7.546529292467035!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1039f18a4d1a94d3%3A0x663b029ca47d8982!2sTrailblazer%20Academy%20%26%20Edukonsult!5e0!3m2!1sen!2sng!4v1778765788805!5m2!1sen!2sng"
+                      width="100%"
+                      height="100%"
+                      style={{ border: 0 }}
+                      allowFullScreen
+                      loading="lazy"
+                      referrerPolicy="no-referrer-when-downgrade"
+                      title="Academy Location"
+                    ></iframe>
+                  </div>
+                  <div className="mt-4">
+                    <Button
+                      variant="outline"
+                      className="w-full text-xs cursor-pointer"
+                      onClick={() => window.open("https://maps.app.goo.gl/7LV1258gCkycPC1y9", "_blank")}
                     >
-                      <rect fill="#e5e7eb" width="400" height="200" />
-                      {/* Simplified map illustration */}
-                      <path
-                        d="M0 100 Q100 80 200 100 T400 100"
-                        stroke="#d1d5db"
-                        strokeWidth="40"
-                        fill="none"
-                      />
-                      <path
-                        d="M150 0 L150 200"
-                        stroke="#d1d5db"
-                        strokeWidth="30"
-                        fill="none"
-                      />
-                      <path
-                        d="M250 0 L250 200"
-                        stroke="#d1d5db"
-                        strokeWidth="20"
-                        fill="none"
-                      />
-                      <circle cx="200" cy="100" r="8" fill="#ea580c" />
-                      <path
-                        d="M200 70 C200 85 215 100 200 115 C185 100 200 85 200 70"
-                        fill="#ea580c"
-                      />
-                      <circle cx="200" cy="85" r="4" fill="white" />
-                    </svg>
+                      Visit our location
+                    </Button>
                   </div>
                 </div>
 
@@ -105,7 +95,7 @@ export default function ContactPage() {
                         Admissions Office
                       </p>
                       <p className="text-lg font-bold text-foreground">
-                        (555) 123-4567
+                        <a href={`tel:${contactData.phone.replace(/\s/g, "")}`}>{contactData.phone}</a>
                       </p>
                     </div>
                   </div>
@@ -119,7 +109,7 @@ export default function ContactPage() {
                         General Inquiries
                       </p>
                       <p className="text-lg font-bold text-foreground">
-                        hello@trailblazers.edu
+                        <a href={`mailto:${contactData.email}`}>{contactData.email}</a>
                       </p>
                     </div>
                   </div>
