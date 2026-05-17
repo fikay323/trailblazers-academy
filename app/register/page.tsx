@@ -8,9 +8,11 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { ArrowRight, CheckCircle2, ClipboardList } from "lucide-react"
+import { useForm, ValidationError } from '@formspree/react'
 
 export default function RegisterPage() {
-  const [isSubmitted, setIsSubmitted] = useState(false)
+  const [state, handleSubmit] = useForm('mdornonj')
+  
   const [formData, setFormData] = useState({
     fullName: "",
     dob: "",
@@ -45,15 +47,7 @@ export default function RegisterPage() {
     }))
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    // In a real app, you would send this to your backend
-    console.log("Registration Data:", formData)
-    setIsSubmitted(true)
-    window.scrollTo({ top: 0, behavior: 'smooth' })
-  }
-
-  if (isSubmitted) {
+  if (state.succeeded) {
     return (
       <div className="flex min-h-screen flex-col items-center justify-center bg-background px-4">
         <div className="text-center space-y-4 max-w-md">
@@ -96,6 +90,11 @@ export default function RegisterPage() {
           </CardHeader>
           <CardContent className="p-8 pt-0">
             <form onSubmit={handleSubmit} className="space-y-12">
+              {/* Hidden Inputs for Formspree to capture custom component values */}
+              <input type="hidden" name="Gender" value={formData.gender} />
+              <input type="hidden" name="Programmes" value={formData.programmes.join(', ')} />
+              <input type="hidden" name="Class Mode" value={formData.classMode} />
+
               {/* Personal Information */}
               <div className="space-y-8">
                 <h3 className="text-lg font-semibold border-b pb-2">1. Personal Information</h3>
@@ -104,22 +103,26 @@ export default function RegisterPage() {
                     <Label htmlFor="fullName">1. Full Name</Label>
                     <Input
                       id="fullName"
+                      name="Full Name"
                       required
                       placeholder="Enter your full name"
                       value={formData.fullName}
                       onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
                     />
+                    <ValidationError prefix="Full Name" field="Full Name" errors={state.errors} className="text-sm text-red-500 mt-1" />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="dob">2. Date of Birth (DD/MM/YYYY)</Label>
                     <Input
                       id="dob"
+                      name="Date of Birth"
                       type="text"
                       required
                       placeholder="e.g. 15/05/2005"
                       value={formData.dob}
                       onChange={(e) => setFormData({ ...formData, dob: e.target.value })}
                     />
+                    <ValidationError prefix="Date of Birth" field="Date of Birth" errors={state.errors} className="text-sm text-red-500 mt-1" />
                   </div>
                 </div>
 
@@ -146,22 +149,26 @@ export default function RegisterPage() {
                     <Label htmlFor="phone">4. Phone Number (Student/Parent)</Label>
                     <Input
                       id="phone"
+                      name="Phone Number"
                       type="tel"
                       required
                       placeholder="Enter phone number"
                       value={formData.phone}
                       onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                     />
+                    <ValidationError prefix="Phone Number" field="Phone Number" errors={state.errors} className="text-sm text-red-500 mt-1" />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="email">5. Email Address (Optional)</Label>
                     <Input
                       id="email"
+                      name="Email Address"
                       type="email"
                       placeholder="example@email.com"
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     />
+                    <ValidationError prefix="Email Address" field="Email Address" errors={state.errors} className="text-sm text-red-500 mt-1" />
                   </div>
                 </div>
 
@@ -169,11 +176,13 @@ export default function RegisterPage() {
                   <Label htmlFor="address">6. Residential Address</Label>
                   <Input
                     id="address"
+                    name="Residential Address"
                     required
                     placeholder="Enter your current address"
                     value={formData.address}
                     onChange={(e) => setFormData({ ...formData, address: e.target.value })}
                   />
+                  <ValidationError prefix="Residential Address" field="Residential Address" errors={state.errors} className="text-sm text-red-500 mt-1" />
                 </div>
               </div>
 
@@ -185,21 +194,25 @@ export default function RegisterPage() {
                     <Label htmlFor="lastSchool">7. Last School Attended</Label>
                     <Input
                       id="lastSchool"
+                      name="Last School Attended"
                       required
                       placeholder="Name of your last school"
                       value={formData.lastSchool}
                       onChange={(e) => setFormData({ ...formData, lastSchool: e.target.value })}
                     />
+                    <ValidationError prefix="Last School Attended" field="Last School Attended" errors={state.errors} className="text-sm text-red-500 mt-1" />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="classCompleted">8. Class Completed</Label>
                     <Input
                       id="classCompleted"
+                      name="Class Completed"
                       required
                       placeholder="e.g. SSS 3"
                       value={formData.classCompleted}
                       onChange={(e) => setFormData({ ...formData, classCompleted: e.target.value })}
                     />
+                    <ValidationError prefix="Class Completed" field="Class Completed" errors={state.errors} className="text-sm text-red-500 mt-1" />
                   </div>
                 </div>
               </div>
@@ -227,10 +240,12 @@ export default function RegisterPage() {
                   <Label htmlFor="subjects">10. Subject Combination (for WAEC/UTME/JUPEB)</Label>
                   <Input
                     id="subjects"
+                    name="Subject Combination"
                     placeholder="e.g. Maths, English, Physics, Chemistry"
                     value={formData.subjectCombination}
                     onChange={(e) => setFormData({ ...formData, subjectCombination: e.target.value })}
                   />
+                  <ValidationError prefix="Subject Combination" field="Subject Combination" errors={state.errors} className="text-sm text-red-500 mt-1" />
                 </div>
 
                 <div className="space-y-3">
@@ -259,38 +274,24 @@ export default function RegisterPage() {
                   <Label htmlFor="referral">12. How Did You Hear About Us?</Label>
                   <Input
                     id="referral"
+                    name="Referral"
                     placeholder="e.g. Social Media, Friend, Radio"
                     value={formData.referral}
                     onChange={(e) => setFormData({ ...formData, referral: e.target.value })}
                   />
+                  <ValidationError prefix="Referral" field="Referral" errors={state.errors} className="text-sm text-red-500 mt-1" />
                 </div>
               </div>
 
-              {/* Declaration */}
-              {/* <div className="mt-10 rounded-lg bg-primary/5 p-6 space-y-4">
-                <h3 className="text-lg font-bold flex items-center gap-2">
-                  📌 DECLARATION:
-                </h3>
-                <p className="text-sm text-muted-foreground italic leading-relaxed">
-                  I hereby declare that the information provided is true and correct to the best of my knowledge.
-                  I agree to abide by the rules and regulations of Trailblazer Academy & Edukonsult.
-                </p>
-                <div className="grid gap-6 md:grid-cols-2 pt-4 border-t border-primary/20">
-                  <div className="space-y-4">
-                    <div className="h-10 border-b border-foreground/40"></div>
-                    <p className="text-xs font-semibold uppercase">Student's Signature</p>
-                  </div>
-                  <div className="space-y-4">
-                    <div className="h-10 border-b border-foreground/40"></div>
-                    <p className="text-xs font-semibold uppercase">Date</p>
-                  </div>
-                </div>
-              </div> */}
-
               <div className="flex justify-end pt-6">
-                <Button type="submit" size="lg" className="px-12 py-6 text-lg shadow-lg hover:shadow-primary/20 transition-all">
-                  Submit Application
-                  <ArrowRight className="ml-2 h-5 w-5" />
+                <Button 
+                  type="submit" 
+                  size="lg" 
+                  disabled={state.submitting}
+                  className="px-12 py-6 text-lg shadow-lg hover:shadow-primary/20 transition-all"
+                >
+                  {state.submitting ? "Submitting..." : "Submit Application"}
+                  {!state.submitting && <ArrowRight className="ml-2 h-5 w-5" />}
                 </Button>
               </div>
             </form>
